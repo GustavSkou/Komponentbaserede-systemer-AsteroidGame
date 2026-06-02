@@ -44,6 +44,7 @@ class Game {
     private final List<IProcessingService> entityProcessingServiceList;
     private final List<IPostProcessingService> postEntityProcessingServices;
     private final List<GameEndingSPI> gameEndingServices;
+    private AnimationTimer animationTimer;
 
     private Text scoreText, healthText;
     private final HttpClient httpClient = HttpClient.newHttpClient();
@@ -115,7 +116,7 @@ class Game {
     }
 
     public void render() {
-        new AnimationTimer() {
+        animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 gameData.updateDeltaTime(now);
@@ -124,7 +125,7 @@ class Game {
                     for (GameEndingSPI gameEndingService : getGameEndingServices()) {
                         gameEndingService.endGame(gameData, world);
                     }
-                    stop();
+                    animationTimer.stop();
                     return;
                 }
                 update();
@@ -132,7 +133,9 @@ class Game {
                 scoreText.setText("Destroyed asteroids: " + httpGetScoreValue() );
                 healthText.setText("Health: " + httpGetHealthValue() );
             }
-        }.start();
+        };
+        if (!hasGameEnded())
+            animationTimer.start();
     }
 
     private void update() {

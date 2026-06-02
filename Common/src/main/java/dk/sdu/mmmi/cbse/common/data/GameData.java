@@ -3,6 +3,8 @@ package dk.sdu.mmmi.cbse.common.data;
 import dk.sdu.mmmi.cbse.common.gameControlls.GameKeyBinds;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
 
 public class GameData {

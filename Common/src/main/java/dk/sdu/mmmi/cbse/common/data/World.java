@@ -20,7 +20,11 @@ public class World {
     }
 
     public void removeEntity(Entity entity) {
-        entityMap.remove(entity.getID());
+        try {
+            entityMap.remove(entity.getID());
+        } catch (Exception ex){
+            return;
+        }
     }
 
     public Collection<Entity> getEntities() {
