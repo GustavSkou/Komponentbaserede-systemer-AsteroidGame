@@ -126,6 +126,7 @@ class Game {
                         gameEndingService.endGame(gameData, world);
                     }
                     animationTimer.stop();
+                    httpPost("http://localhost:8081/reset");
                     return;
                 }
                 update();

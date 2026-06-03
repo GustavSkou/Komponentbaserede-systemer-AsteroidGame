@@ -116,37 +116,6 @@
                     <useModulePath>false</useModulePath>
                 </configuration>
             </plugin>
-            <!-- execute the resulting project -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version> 3.5.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>java</executable>
-                    <workingDirectory>.</workingDirectory>
-                    <arguments>
-                        <argument>--module-path=mods-mvn</argument>
-                        <argument>--class-path=libs/*</argument>
-
-                        <!-- because spark.core is an automatic module and actually required,
-                        monitor.observer.zero would be resolved as well and does not need
-                        to be added explicitly;
-                        I still wanted to do it for clarity, but for some reason that results
-                        in "java.lang.module.FindException: Module monitor.observer.zero not found";
-                        strange... -->
-                        <!--                        <argument>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=127.0.0.1:8000</argument>-->
-                        <argument>--module=Core/dk.sdu.mmmi.cbse.main.Main</argument>
-                        <argument>--add-modules javafx.graphics</argument>
-                    </arguments>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
@@ -173,6 +142,31 @@
                                     <directory>libs</directory>
                                 </fileset>
                             </filesets>
+                        </configuration>
+                    </plugin>
+                    <!-- execute the resulting project only from the root project -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <executable>java</executable>
+                            <workingDirectory>${maven.multiModuleProjectDirectory}</workingDirectory>
+                            <arguments>
+                                <argument>--module-path=${maven.multiModuleProjectDirectory}/mods-mvn</argument>
+                                <argument>--class-path=${maven.multiModuleProjectDirectory}/libs/*</argument>
+                                <!--                        <argument>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=127.0.0.1:8000</argument>-->
+                                <argument>--module=Core/dk.sdu.mmmi.cbse.main.Main</argument>
+                                <argument>--add-modules</argument>
+                                <argument>javafx.graphics</argument>
+                            </arguments>
                         </configuration>
                     </plugin>
                 </plugins>

@@ -38,7 +38,7 @@ public class ScoreApplication {
 	}
 
 	@PostMapping("/reset")
-	public long resetPoints(long point) {
+	public long resetPoints() {
 		currentScore = 0;
 		return currentScore;
 	}

@@ -15,6 +15,8 @@ import javafx.scene.text.Text;
 
 public class GameEnding implements GameEndingSPI {
 
+    private final HttpClient httpClient = HttpClient.newHttpClient();
+
     @Override
     public void endGame(GameData gameData, World world) {
         cleanupPlugins(gameData, world);
@@ -48,13 +50,12 @@ public class GameEnding implements GameEndingSPI {
 
     private long httpGetValue(String uri) {
         try {
-            HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
                 .GET()
                 .build();
 
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             return Long.parseLong(response.body().trim());
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -5,6 +5,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IPluginService;
 import dk.sdu.mmmi.cbse.common.player.Player;
+
 public class PlayerPlugin implements IPluginService {
 
     private Entity player;
